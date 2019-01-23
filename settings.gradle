@@ -1,0 +1,5 @@
+rootProject.name = 'tan'
+include 'tan-client'
+include 'tan-common'
+include 'tan-server'
+

@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="server">
+    <output-path>$PROJECT_DIR$/out/artifacts/server</output-path>
+    <root id="archive" name="org.nextwwparty.tan-server.main.jar">
+      <element id="module-output" name="org.nextwwparty.tan-server.main" />
+      <element id="module-output" name="org.nextwwparty.tan-common.main" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>
