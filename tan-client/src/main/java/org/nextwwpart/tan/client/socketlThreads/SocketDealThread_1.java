@@ -2,7 +2,10 @@ package org.nextwwpart.tan.client.socketlThreads;
 
 import org.nextwwpart.tan.common.dealThreads.SocketDealThread;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /**

@@ -2,6 +2,7 @@ package org.nextwwpart.tan.server.main;
 
 import org.nextwwpart.tan.common.classLoader.WebClassLoader;
 import org.nextwwpart.tan.common.dealThreads.SocketDealThread;
+import org.nextwwpart.tan.common.utils.ClassSenderUtil;
 import org.nextwwpart.tan.common.utils.SerializeUtil;
 
 import java.io.IOException;
@@ -39,29 +40,13 @@ public class TanServer {
             Socket socket = serverSocket.accept();
             try {
                 connectCount++;
-                System.out.println("第" + connectCount + "次接入："+socket.getRemoteSocketAddress());
-                byte[] bufferSizebytes = new byte[4];
-                socket.getInputStream().read(bufferSizebytes);
-                int bufferSize = SerializeUtil.BytesToInt(bufferSizebytes, 0);
-                if (bufferSize == 0) {
-                    break;
-                } else {
-                    byte[] strBuffer = new byte[bufferSize];
-                    socket.getInputStream().read(strBuffer);
-                    String dealThreadName = new String(strBuffer);
-                    //最好保存一下线程实例，不必每次都通过反射构建对象
-                    socket.getInputStream().read(bufferSizebytes);
-                    bufferSize = SerializeUtil.BytesToInt(bufferSizebytes, 0);
-                    byte[] classDataBuffer = new byte[bufferSize];
-                    socket.getInputStream().read(classDataBuffer);
-                    WebClassLoader webClassLoader = new WebClassLoader(classDataBuffer);
-                    Class dealThreadClass = webClassLoader.loadClass(dealThreadName);
-                    Constructor constructor = dealThreadClass.getConstructor(Socket.class);
-                    SocketDealThread socketDealThread = (SocketDealThread) constructor.newInstance(socket);
-                    socketDealThread.start();
-                }
+                System.out.println("第" + connectCount + "次接入：" + socket.getRemoteSocketAddress());
+                Class dealThreadClass = ClassSenderUtil.receiveClass(socket);
+                Constructor constructor = dealThreadClass.getConstructor(Socket.class);
+                SocketDealThread socketDealThread = (SocketDealThread) constructor.newInstance(socket);
+                socketDealThread.start();
             } catch (Throwable e) {
-              System.out.println(e);
+                System.out.println(e);
             }
         }
     }

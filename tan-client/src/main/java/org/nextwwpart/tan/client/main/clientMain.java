@@ -1,8 +1,7 @@
 package org.nextwwpart.tan.client.main;
 
 import org.nextwwpart.tan.client.socketlThreads.SocketDealThread_1;
-import org.nextwwpart.tan.common.classLoader.ClassToBytes;
-import org.nextwwpart.tan.common.utils.SerializeUtil;
+import org.nextwwpart.tan.common.utils.ClassSenderUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -25,26 +24,17 @@ public class clientMain {
         BufferedReader input = null;
         // 请求指定ip和端口号的服务器
         socket = new Socket("127.0.0.1", 10000);
-        String dealThreadName = SocketDealThread_1.class.getName();
-        socket.getOutputStream().write(SerializeUtil.IntToBytes(dealThreadName.length()));
-        byte[] buffer = dealThreadName.getBytes();
-        socket.getOutputStream().write(buffer);
-        String root = SocketDealThread_1.class.getResource("").getPath();
-        byte[] classData = ClassToBytes.loadClassData(SocketDealThread_1.class.getSimpleName(), root);
-        if (classData!=null) {
-            socket.getOutputStream().write(SerializeUtil.IntToBytes(classData.length));
-            socket.getOutputStream().write(classData);
-            while (true) {
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                out = new PrintWriter(socket.getOutputStream(), true);
-                // 接收控制台的输入
-                input = new BufferedReader(new InputStreamReader(System.in));
-                String info = input.readLine();
-                out.println(info);
-                String str = in.readLine();
-                System.out.println("客户端显示--》服务器的信息：" + str);
-            }
+        Class sendClass = SocketDealThread_1.class;
+        ClassSenderUtil.sendClass(socket, sendClass);
+        while (true) {
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+            // 接收控制台的输入
+            input = new BufferedReader(new InputStreamReader(System.in));
+            String info = input.readLine();
+            out.println(info);
+            String str = in.readLine();
+            System.out.println("客户端显示--》服务器的信息：" + str);
         }
-        socket.close();
     }
 }
