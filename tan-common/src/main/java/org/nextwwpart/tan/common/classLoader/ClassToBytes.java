@@ -4,7 +4,7 @@ import java.io.*;
 
 public class ClassToBytes {
     //此方法还需要兼容jar包
-    public static byte[] loadClassData(String className,String root) {
+    public static byte[] loadClassData(String className, String root) {
         String fileName = root + File.separatorChar
                 + className.replace('.', File.separatorChar) + ".class";
         try {

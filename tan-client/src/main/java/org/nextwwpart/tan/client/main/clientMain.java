@@ -18,19 +18,15 @@ import java.net.Socket;
  */
 public class clientMain {
     public static void main(String[] args) throws Exception {
-        Socket socket = null;
-        BufferedReader in = null;
-        PrintWriter out = null;
-        BufferedReader input = null;
         // 请求指定ip和端口号的服务器
-        socket = new Socket("127.0.0.1", 10000);
+        Socket socket = new Socket("127.0.0.1", 10000);
         Class sendClass = SocketDealThread_1.class;
         ClassSenderUtil.sendClass(socket, sendClass);
         while (true) {
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             // 接收控制台的输入
-            input = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
             String info = input.readLine();
             out.println(info);
             String str = in.readLine();
