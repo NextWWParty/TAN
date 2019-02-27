@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class TanServerMain {
     public static void main(String args[]) throws IOException {
-        TanServer tanServer = new TanServer(10000);
+        TanServer tanServer = new TanServer(10001);
         tanServer.startReceiving();
     }
 }

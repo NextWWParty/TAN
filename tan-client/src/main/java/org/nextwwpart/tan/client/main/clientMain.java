@@ -19,7 +19,7 @@ import java.net.Socket;
 public class clientMain {
     public static void main(String[] args) throws Exception {
         // 请求指定ip和端口号的服务器
-        Socket socket = new Socket("127.0.0.1", 10000);
+        Socket socket = new Socket("127.0.0.1", 10001);
         Class sendClass = SocketDealThread_1.class;
         ClassSenderUtil.sendClass(socket, sendClass);
         while (true) {
